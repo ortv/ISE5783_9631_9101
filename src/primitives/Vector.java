@@ -26,7 +26,7 @@ public class Vector extends Point
 	}
 	/**
 	 * ctor for Vector class that gets number of Double3 that consists of 3 double numbers
-	 * @param p
+	 * @param p the given Double number
 	 */
 	public Vector(Double3 p) 
 	{
