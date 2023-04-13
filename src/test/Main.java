@@ -5,6 +5,10 @@ import static primitives.Util.isZero;
 
 import primitives.Point;
 import primitives.Vector;
+//Orit Rokach 213279631
+//Shirel Maitar 214439101
+
+
 
 /** Test program for the 1st stage
  * @author Dan Zilberstein */

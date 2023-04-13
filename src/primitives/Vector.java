@@ -102,6 +102,7 @@ public class Vector extends Point
 		      return false;
 	}
 	/**
+	 * 
 	 * calculates dot product for vector
 	 * @param v the given vector
 	 * @return the result-double number
