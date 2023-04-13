@@ -19,11 +19,24 @@ class VectorTests {
 	void testAddVector() {
 	      Vector v1 = new Vector(1, 2, 3);
 	      Vector v2=new Vector(-1, -2, -3);
-		  // ============ Equivalence Partitions Tests ==============
+			// =============== Boundary Values Tests ==================
 	      //TC01:Test add vector-if throw an exception in case its a Zero vector(on the same line in opposite directions
 	      assertThrows(IllegalArgumentException.class, ()->v1.add(v2),"\"ERROR: Vector + -itself does not throw an exception\"");
 	}
 
+	/**
+	 * Test method for {@link primitives.Vector#subtract(primitives.Vector)}.
+	 */
+	@Test
+	void testSubtractVector() {
+	      Vector v1 = new Vector(1, 2, 3);
+			// =============== Boundary Values Tests ==================
+	      //TC01:Test sub vector-if throw an exception in case its a Zero vector(on the same line)
+	      assertThrows(IllegalArgumentException.class, ()->v1.subtract(v1),"\"ERROR: subtruct() -itself does not throw an exception\"");
+	}
+
+	
+	
 	/**
 	 * Test method for {@link primitives.Vector#scale(double)}.
 	 */

@@ -103,6 +103,16 @@ public class Vector extends Point
 	}
 	/**
 	 * 
+	 * subtract 2 vectors
+	 * @param v the given vector
+	 * @return the result-new vetor
+	 */
+	public Vector subtract(Vector v) {
+		return new Vector(this.xyz.subtract(v.xyz));
+	}
+
+	/**
+	 * 
 	 * calculates dot product for vector
 	 * @param v the given vector
 	 * @return the result-double number
