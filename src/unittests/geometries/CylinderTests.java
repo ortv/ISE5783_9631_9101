@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,12 +21,5 @@ class CylinderTests {
 		fail("Not yet implemented");
 	}
 
-	/**
-	 * Test method for {@link geometries.Cylinder#getHeight()}.
-	 */
-	@Test
-	void testGetHeight() {
-		fail("Not yet implemented");
-	}
 
 }

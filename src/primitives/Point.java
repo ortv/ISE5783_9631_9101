@@ -77,6 +77,6 @@ public boolean equals(Object obj) {
        return this.xyz.equals(other.xyz);
      return false;
 }
-Double3 xyz;
+final Double3 xyz;
  
 }

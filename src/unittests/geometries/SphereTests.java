@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +18,8 @@ class SphereTests {
 	 */
 	@Test
 	void testGetNormal() {
-		fail("Not yet implemented");
+		 // ============ Equivalence Partitions Tests ==============
+		
 	}
 
 }

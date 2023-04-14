@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.primitives;
 import primitives.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.lang.System.out;

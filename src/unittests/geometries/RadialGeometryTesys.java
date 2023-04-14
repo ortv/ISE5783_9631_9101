@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
  * @author AAA
  *
  */
-class PolygonTests {
+class RadialGeometryTesys {
 
 	/**
-	 * Test method for {@link geometries.Polygon#getNormal(primitives.Point)}.
+	 * Test method for {@link geometries.RadialGeometry#getNormal(primitives.Point)}.
 	 */
 	@Test
 	void testGetNormal() {

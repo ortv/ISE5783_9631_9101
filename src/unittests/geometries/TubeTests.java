@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,14 +18,6 @@ class TubeTests {
 	 */
 	@Test
 	void testGetNormal() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link geometries.Tube#getAxisRay()}.
-	 */
-	@Test
-	void testGetAxisRay() {
 		fail("Not yet implemented");
 	}
 

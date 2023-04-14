@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unittests;
+package unittests.primitives;
 import static primitives.Util.isZero;
 
 import static java.lang.System.out;
@@ -62,8 +62,7 @@ class PointTests {
 		assertEquals(27, p1.distanceSquared(p2),"ERROR: Point DistanceSquared()  does not work correctly");
 		// =============== Boundary Values Tests ==================
 		//TC02:distance betwenn the same point-should be zero
-		assertTrue(isZero(p1.distanceSquared(p1)), "ERROR: Point DistanceSquared()  does not work correctly");
-		
+		assertTrue(isZero(p1.distanceSquared(p1)), "ERROR: Point DistanceSquared()  does not work correctly");	
 		
 	}
 	

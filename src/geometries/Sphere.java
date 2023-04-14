@@ -8,9 +8,6 @@ public class Sphere extends RadialGeometry{
 	private double radius;///////////////
 	
 	
-	
-	
-	
 	public Point getCenter() {
 		return center;
 	}
