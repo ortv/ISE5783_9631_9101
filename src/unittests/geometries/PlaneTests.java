@@ -32,18 +32,20 @@ class PlaneTests {
 		   //the ctor takes 3 points and create a plane that includes a normal vector that was created from the 3 points-we just need to check that the normal is correct in testgetNormal
 		   
 			// =============== Boundary Values Tests ==================
-		   //TC02: the first and the second points converge
+		   //TC02: the first and the second points converge(connected)
 		   assertThrows(IllegalArgumentException.class, 
-                   () -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(0, 2, 2)), 
-                   "Constructed a Plane with two converge points");
+                   () -> new Plane(new Point(1, 1, 1), new Point(1, 1, 1), new Point(3, 4, 5)), 
+                   "Constructed a Plane with two converge(connected) points");
 		   //TC03: all the points on the same line
 		   assertThrows(IllegalArgumentException.class, 
-                   () -> new Plane(new Point(1, 2, 3), new Point(2, 4, 6), new Point(4, 8, 12)), 
+                   () -> new Plane(new Point(1, 1, 1), new Point(2, 2, 2), new Point(3, 3, 3)), 
                    "Constructed a Plane with 3 ponts that on the same line");
 	   }
 	
 	
+	   
 
+	   	   
 	/**
 	 * Test method for {@link geometries.Plane#getNormal()}.
 	 */

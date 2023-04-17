@@ -16,15 +16,7 @@ import primitives.Point;
  */
 class TriangleTests {
 
-	/**
-	 * Test method for {@link geometries.Triangle#Triangle(primitives.Point[])}.
-	 */
-	@Test
-	void testTriangle() {
-		fail("Not yet implemented");
-	}
-	/////@#$%^&*()_56
-
+	
 	/**
 	 * Test method for {@link geometries.Polygon#getNormal(primitives.Point)}.
 	 */

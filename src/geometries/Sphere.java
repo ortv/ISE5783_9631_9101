@@ -5,7 +5,6 @@ import primitives.Vector;
 
 public class Sphere extends RadialGeometry{
 	private Point center;
-	private double radius;///////////////
 	
 	
 	public Point getCenter() {
@@ -16,11 +15,15 @@ public class Sphere extends RadialGeometry{
 		return radius;
 	}
 
-	public Sphere(double rad) {
+	public Sphere(double rad,Point p) {
 		super(rad);
 		// TODO Auto-generated constructor stub
+		this.center=p;
 	}
 
 	@Override
-	   public Vector getNormal(Point point) {return null;}
+	   public Vector getNormal(Point p) {
+			//p is a point on the sphere
+			return  (p.subtract(center).normalize());
+		}
 }

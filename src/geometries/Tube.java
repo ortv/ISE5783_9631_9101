@@ -13,7 +13,16 @@ public class Tube extends RadialGeometry {
 		axisRay=r;///////////652#$%^
 	}
 	@Override
-	   public Vector getNormal(Point point) {return null;}
+	   public Vector getNormal(Point p) {
+		//need to find the center point
+		//assuming p is inside the tube
+		Vector v=p.subtract(this.axisRay.getP0());//p-p0(this-p)
+		double t=this.axisRay.getDir().dotProduct(v);//dot product normal vector of ray*v
+		v=v.scale(t);//t*v
+		Point centerPoint=this.axisRay.getP0().add(v);//p0+t*v
+		return (p.subtract(centerPoint).normalize());//return normal vector for tube
+		}
+	                                                                                              
 	public Ray getAxisRay() {
 		return axisRay;
 	}
