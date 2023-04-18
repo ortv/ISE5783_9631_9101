@@ -4,7 +4,7 @@ import primitives.Point;
 import primitives.Vector;
 
 public class Plane implements Geometry{
-	private Point p0;
+	final private Point p0;
 	private Vector normal;
 	
 	public Point getP0() {
