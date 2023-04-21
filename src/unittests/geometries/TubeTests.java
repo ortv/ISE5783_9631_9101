@@ -36,10 +36,16 @@ class TubeTests {
 		//TC02:test  connection of a point to the axis of the sphere creates a right angle with the axis
 		Tube t1=new Tube(5,new Ray(new Vector(0,0,1), new Point(1,1,1)));
 		Point p2=new Point(2, 0, 0);
-		assertEquals(1, t1.getNormal(p2).length(),"ERROR: getNormal()  does not work correctly-should be 1!");
-		
-		
-		
+		assertEquals(1, t1.getNormal(p2).length(),"ERROR: getNormal()  does not work correctly-should be 1!");	
 	}
+	   
+	   /**
+		 * Test method for {@link geometries.Tube#findIntsersections(Ray ray)}.
+		 */
+		@Test
+		public void  testFindIntersectionPoints()
+		{
+			
+		}
 
 }

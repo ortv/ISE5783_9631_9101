@@ -1,5 +1,5 @@
 package primitives;
-
+import static primitives.Util.*;
 public class Ray {
 
 	private Point p0;
@@ -18,5 +18,16 @@ public class Ray {
 	}
 	public Vector getDir() {
 		return dir;
+	}
+	/** 
+	 * return the point that on the ray
+	 * @param t is the scalar
+	 * @return the result-point
+	 */
+	public Point getPoint(double t) 
+	{
+		if(isZero(t))//if t is almost zero-return the initial point of ray
+			return p0;
+		return p0.add(dir.scale(t));
 	}
 }

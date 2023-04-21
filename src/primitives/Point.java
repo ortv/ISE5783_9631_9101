@@ -1,6 +1,8 @@
 package primitives;
 import java.lang.Math;
 import java.util.Objects;
+
+import org.junit.validator.PublicClassValidator;
 /**
  * a Point class
  * @author AAA
@@ -16,7 +18,12 @@ public class Point {
  public Point(double x, double y, double z)
  {
 	 xyz= new Double3(x,y,z);
-}
+ }
+ public double getX()
+ {
+	 return xyz.d1;
+ }
+
  /**
   * ctor for Point class that gets a number of Double3-that consists of 3 double numbers
   * @param x

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import geometries.Plane;
 import primitives.Point;
+import primitives.Ray;
 
 /**
  * @author AAA
@@ -18,7 +19,7 @@ class TriangleTests {
 
 	
 	/**
-	 * Test method for {@link geometries.Polygon#getNormal(primitives.Point)}.
+	 * Test method for {@link geometries.Triangle#getNormal(primitives.Point)}.
 	 */
 	@Test
 	void testGetNormal() {
@@ -27,5 +28,13 @@ class TriangleTests {
 		Plane p=new Plane(new Point(1,2,3),new Point (1,1,1),new Point(2,4,6));
 		assertEquals(1, p.getNormal().length(),"ERROR: getNormal()  does not work correctly-should be 1!");
 			}
-
+	   
+	   /**
+		 * Test method for {@link geometries.Triangle#findIntsersections(Ray ray)}.
+		 */
+		@Test
+		public void  testFindIntersectionPoints()
+		{
+			
+		}
 }

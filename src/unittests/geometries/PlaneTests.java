@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import geometries.Plane;
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 
 /**
  * @author AAA
@@ -40,10 +41,7 @@ class PlaneTests {
 		   assertThrows(IllegalArgumentException.class, 
                    () -> new Plane(new Point(1, 1, 1), new Point(2, 2, 2), new Point(3, 3, 3)), 
                    "Constructed a Plane with 3 ponts that on the same line");
-	   }
-	
-	
-	   
+	   }   
 
 	   	   
 	/**
@@ -55,6 +53,15 @@ class PlaneTests {
 		//TC01:test if get the correct result-the length of the normal vector should be 1
 		Plane p=new Plane(new Point(1,2,3),new Point (1,1,1),new Point(2,4,6));
 		assertEquals(1, p.getNormal().length(),"ERROR: getNormal()  does not work correctly-should be 1!");
+		
+	}
+	   
+	/**
+	 * Test method for {@link geometries.Plane#findIntsersections(Ray ray)}.
+	 */
+	@Test
+	public void  testFindIntersectionPoints()
+	{
 		
 	}
 
