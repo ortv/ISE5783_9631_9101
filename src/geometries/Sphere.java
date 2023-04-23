@@ -42,7 +42,7 @@ public class Sphere extends RadialGeometry{
 			Point p=ray.getP0().add(ray.getDir().scale(radius));
 			return List.of(p);
 		}
-		
+
 		Vector u=(center.subtract(ray.getP0()));//center-initial point of ray,normalize
 		double tm=ray.getDir().dotProduct(u);//dot product between the direction vector of ray and the vector above,return double number
 		if(Util.isZero(tm))//orthogonal

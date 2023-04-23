@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import geometries.Plane;
+import geometries.Triangle;
 import primitives.Point;
 import primitives.Ray;
 
@@ -29,12 +30,12 @@ class TriangleTests {
 		assertEquals(1, p.getNormal().length(),"ERROR: getNormal()  does not work correctly-should be 1!");
 			}
 	   
+	
 	   /**
 		 * Test method for {@link geometries.Triangle#findIntsersections(Ray ray)}.
 		 */
 		@Test
 		public void  testFindIntersectionPoints()
 		{
-			
 		}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import primitives.Double3;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 public class Plane implements Geometry{
@@ -26,7 +27,6 @@ public class Plane implements Geometry{
 		}
 		Vector v1=y.subtract(x);//y-x
 		Vector v2=z.subtract(x);//z-y
-		
 		try {
 			normal=v1.crossProduct(v2);//return a new vector
 		}
@@ -40,15 +40,43 @@ public class Plane implements Geometry{
 	public Plane(Point p,Vector v)
 	{
 		p0=p;
-		normal=this.getNormal(p);//not implemented yet
+		normal=v.normalize();
 	}
 	@Override
 	public Vector getNormal(Point p) {
 		// TODO Auto-generated method stub
-		return null;
+		return normal;
 	}
+	/*
+	 * find all the intersection points between a ray and a plane
+	* @param ray is the given ray to intersect with
+	 * @return list of intersection points-if there are not, return null
+	 * */
 	public List<Point> findIntsersections(Ray ray)
 	{
+		double tmp=Util.alignZero(normal.dotProduct(ray.getDir()));//if it zero-either orthogonal or parallel
+		if(tmp==0)
+		{//orthogonal
+			
+		}
+		//otherwise
+		double tmp1=normal.dotProduct(p0.subtract(ray.getP0()));
+		double t=tmp1/tmp;
+		if(t<0)
+		{
+			return null;
+		}
+		if(t>0)
+		{
+			Point p1=ray.getP0().add(ray.getDir().scale(t));
+			return List.of(p1);
+		}
+		if(t==0)
+		{//if(p0-ray.p0)*normal=0 parallel and included in the plane
+			//otherwise,only parallel.
+			//in both options return null-no intersections
+			return null;
+		}
 		return null;
 	}
 	
