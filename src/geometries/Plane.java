@@ -54,30 +54,24 @@ public class Plane implements Geometry{
 	 * */
 	public List<Point> findIntsersections(Ray ray)
 	{
-		double tmp=Util.alignZero(normal.dotProduct(ray.getDir()));//if it zero-either orthogonal or parallel
-		if(tmp==0)
-		{//orthogonal
+		
+		double denominator = normal.dotProduct(ray.getDir());//n*v
+		if(Util.isZero(denominator))
+			return null;
+		try 
+		{
+			double numerator = normal.dotProduct(p0.subtract(ray.getP0()));//n*(Q-p0)//mone
+		    double t = Util.alignZero(numerator / denominator);
+		    if(t<=0)
+		    	return null;
+		    //else
+		    return List.of(ray.getPoint(t));
 			
-		}
-		//otherwise
-		double tmp1=normal.dotProduct(p0.subtract(ray.getP0()));
-		double t=tmp1/tmp;
-		if(t<0)
+		} catch (Exception e) 
 		{
 			return null;
 		}
-		if(t>0)
-		{
-			Point p1=ray.getP0().add(ray.getDir().scale(t));
-			return List.of(p1);
-		}
-		if(t==0)
-		{//if(p0-ray.p0)*normal=0 parallel and included in the plane
-			//otherwise,only parallel.
-			//in both options return null-no intersections
-			return null;
-		}
-		return null;
+	   
 	}
 	
 	
