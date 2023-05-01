@@ -117,24 +117,7 @@ public class Polygon implements Geometry {
        flagSign=sign>0;
        return pointLst;
    }
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+	     
 	   
 	}
-}
+

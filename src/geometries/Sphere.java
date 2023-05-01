@@ -62,7 +62,7 @@ public class Sphere extends RadialGeometry{
 			Point p1=ray.getP0().add(ray.getDir().scale(t1));
 			Point p2=ray.getP0().add(ray.getDir().scale(t2));
 			if(Util.alignZero(p1.distance(center))<radius&&(Util.alignZero(p2.distance(center))<radius))//2 intersections
-				List.of(p1,p2);
+				return List.of(p1,p2);
 
 			if(Util.alignZero(p1.distance(center))<radius&&(Util.alignZero(p2.distance(center))>=radius))//1 intersections
 			{
