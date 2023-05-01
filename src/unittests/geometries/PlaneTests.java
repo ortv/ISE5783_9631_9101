@@ -85,14 +85,11 @@ class PlaneTests {
 		Plane p4=new Plane(new Point(0,0,7), new Vector(-1,0,1));
 		assertNull(p4.findIntsersections(new Ray(new Vector(1,1,1),new Point(0,-1,10))),"wrong number of intersections-should be zero!" );
 		//=============== ray orthogonal to the plane
-		/*
-		//TC05:ray starts before the plane
-		Plane p5=new Plane(new Point(0,0,3),new Vector(-1,1,2));
-		Ray r5=new Ray(new Vector(1,-1, 1), new Point(-1, 2, 0) );
+		//TC05:ray starts before the plane 
+		Plane p5=new Plane(new Point(-0.5, -0.5, 0), new Point(1, 0, 0), new Point(0, 1, 0));
+		Ray r5=new Ray(new Vector(0, 0, -1),new Point(0, 1, 1));
 		List<Point>result5=p5.findIntsersections(r5);
 		assertEquals(1, result5.size(),"wrong number of points");
-		assertEquals(new Point(1,0,2),result5.get(0),"wrong intersection point");
-		*//////////seems not needed???!!!
 		//TC06:ray starts in the plane
 		Plane p6=new Plane(new Point(0,0,5),new Vector(1,2,1));
 		assertNull(p6.findIntsersections(new Ray(new Vector(1,-1,1),new Point(3,-1,4))),"wrong number of intersections-should be zero!" );

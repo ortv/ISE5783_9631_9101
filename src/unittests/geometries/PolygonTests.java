@@ -91,7 +91,15 @@ public class PolygonTests {
 	 */
 	@Test
 	public void  testFindIntersectionPoints()
-	{
+	{//similar to triangle
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 }
