@@ -5,6 +5,12 @@ import primitives.Ray;
 import primitives.Vector;
 
 public class Cylinder extends Tube{
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+
 	final private double height;
 
 	public double getHeight() {

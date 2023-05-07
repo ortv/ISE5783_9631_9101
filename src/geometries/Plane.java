@@ -8,6 +8,11 @@ import primitives.Util;
 import primitives.Vector;
 
 public class Plane implements Geometry{
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 	final private Point p0;
 	private Vector normal;
 	

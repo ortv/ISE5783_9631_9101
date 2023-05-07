@@ -117,6 +117,12 @@ public class Polygon implements Geometry {
        flagSign=sign>0;
        return pointLst;
    }
+
+@Override
+public String toString() {
+	// TODO Auto-generated method stub
+	return super.toString();
+}
 	     
 	   
 	}

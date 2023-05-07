@@ -8,6 +8,11 @@ import primitives.Util;
 import primitives.Vector;
 
 public class Sphere extends RadialGeometry{
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 	private Point center;
 	
 	
@@ -118,6 +123,7 @@ public class Sphere extends RadialGeometry{
 		return null;
 	}
 }
+
 
 
 

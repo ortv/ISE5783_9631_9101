@@ -2,12 +2,20 @@ package geometries;
 
 import java.util.List;
 
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import primitives.Util;
 
 
 public class Triangle extends Polygon {
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 
 	public Triangle(Point p1, Point p2, Point p3) {
 		super(p1, p2, p3);
@@ -15,6 +23,7 @@ public class Triangle extends Polygon {
 	}
 
 	public List<Point> findIntsersections(Ray ray) {
+
 		Vector rayDirection = ray.getDir();
 
 		// point of ray p0
@@ -49,5 +58,6 @@ public class Triangle extends Polygon {
 		}
 
 		return null;
+
 	}
 }

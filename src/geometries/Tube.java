@@ -8,6 +8,11 @@ import primitives.Vector;
 
 public class Tube extends RadialGeometry {
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
 	final Ray axisRay;
 	public Tube(double rad,Ray r) {
 		super(rad);
