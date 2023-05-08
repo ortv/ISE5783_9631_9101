@@ -54,7 +54,13 @@ class CameraRayIntegrationTests {
 	
 	}
 	
-	
+	/**
+
+	Counts the number of intersections between a given shape and rays that are constructed by a given camera.
+	@param camera the camera that is used to construct the rays.
+	@param shape the shape to test the intersection with.
+	@return the number of intersections between the given shape and the rays constructed by the given camera.
+	*/
 	public int countRayIntersections(Camera camera,Intersectable shape)
 	{
 		int countIntersections=0;
