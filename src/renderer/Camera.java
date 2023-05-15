@@ -1,9 +1,13 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import static primitives.Util.isZero;
+
+import java.awt.image.renderable.ContextualRenderedImageFactory;
+import java.util.MissingResourceException;
 
 public class Camera {
 	/*
@@ -35,6 +39,11 @@ public class Camera {
 	*/
 	private double distance;
 	
+	private ImageWriter imageWriter;
+	private RayTracerBase rayTracer;
+	
+	
+	
 	/**
 	Constructs a new camera with the given parameters.
 	@param p The center point of the camera.
@@ -53,7 +62,69 @@ public class Camera {
 		vTo=to.normalize();
 		p0=new Point(p.getX(),p.getY(),p.getZ());
 	}
+    private final String RESOURCE = "Renderer resource not set";
+	private final String CAMERA_CLASS = "Camera";
+    private final String IMAGE_WRITER = "Image writer";
+    private final String CAMERA = "Camera";
+    private final String RAY_TRACER = "Ray tracer";
+	public Camera renderImage()
+	{
+		if (imageWriter == null)
+            throw new MissingResourceException(RESOURCE, CAMERA_CLASS, IMAGE_WRITER);
+        if (p0 == null || vTo == null || vUp == null || vRight == null || width == 0 || height == 0 || distance == 0)
+            throw new MissingResourceException(RESOURCE, CAMERA_CLASS, CAMERA);
+        if (rayTracer == null)
+            throw new MissingResourceException(RESOURCE, CAMERA_CLASS, RAY_TRACER);
+        final int nX = imageWriter.getNx();
+        final int nY = imageWriter.getNy();
+        for(int i=0;i<nX;i++)
+        {
+        	for(int j=0;j<nY;j++)
+        	{//for each pixel in the view plane, shoot a ray from the camera to the pixel and color the pixel
+                this.imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
+        	}
+        }
+        
+        return this;//for builder
+
+	}
+	public void printGrid(int interval, Color color)
+	{
+		if (imageWriter == null)
+            throw new MissingResourceException(RESOURCE, CAMERA_CLASS, IMAGE_WRITER);
+		
+		final int nX = imageWriter.getNx();
+        final int nY = imageWriter.getNy();
+
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                if (i % interval == 0 || j % interval == 0) {
+                    imageWriter.writePixel(j, i, color);
+                }
+            }
+        }
+	        
+	}
 	
+	public Camera setRayTracer(RayTracerBase rayTracer) {
+		this.rayTracer = rayTracer;
+		return this;
+	}
+	public Camera setImageWriter(ImageWriter imageWriter) {
+		this.imageWriter = imageWriter;
+		return this;
+	}
+	public void writeToImage()
+	{
+		if (imageWriter == null)
+			throw new MissingResourceException(RESOURCE, CAMERA, IMAGE_WRITER);
+        imageWriter.writeToImage();//delegation!
+	}
+	
+	private Color castRay(int nX, int nY, int j, int i) 
+	{
+        return this.rayTracer.traceRay(this.constructRay(nX, nY, j, i));
+	}
 	/**
 	Sets the size of the viewport.
 	@param w The width of the viewport.
