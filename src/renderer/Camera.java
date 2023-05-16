@@ -38,8 +38,12 @@ public class Camera {
 	The distance between the camera and the view plane.
 	*/
 	private double distance;
-	
+	/* 
+	 for writing the image
+	 */
 	private ImageWriter imageWriter;
+	/*
+	 * for throwing rays from pixels for coloring*/
 	private RayTracerBase rayTracer;
 	
 	
@@ -67,6 +71,12 @@ public class Camera {
     private final String IMAGE_WRITER = "Image writer";
     private final String CAMERA = "Camera";
     private final String RAY_TRACER = "Ray tracer";
+    /**
+     * Renders the image using the camera configuration.
+     *
+     * @return The camera instance for method chaining.
+     * @throws MissingResourceException If any required resources are missing.
+     */
 	public Camera renderImage()
 	{
 		if (imageWriter == null)
@@ -88,6 +98,14 @@ public class Camera {
         return this;//for builder
 
 	}
+	/**
+     * Prints a grid pattern on the image.
+     *adds grid lines to the rendered image by setting specific pixels to a specified color
+     * @param interval The interval between grid lines.
+     *
+	@param color The color of the grid lines.
+	* @throws MissingResourceException If the image writer is not set.
+	*/
 	public void printGrid(int interval, Color color)
 	{
 		if (imageWriter == null)
@@ -105,15 +123,31 @@ public class Camera {
         }
 	        
 	}
-	
+	/**
+	 * Sets the ray tracer for the camera.
+	 *
+	 * @param rayTracer The ray tracer to set.
+	 * @return The camera instance for method chaining.
+	 */
 	public Camera setRayTracer(RayTracerBase rayTracer) {
 		this.rayTracer = rayTracer;
 		return this;
 	}
+	/**
+	 * Sets the image writer for the camera.
+	 *
+	 * @param imageWriter The image writer to set.
+	 * @return The camera instance for method chaining.
+	 */
 	public Camera setImageWriter(ImageWriter imageWriter) {
 		this.imageWriter = imageWriter;
 		return this;
 	}
+	/**
+	 * Writes the image to the file specified in the image writer.
+	 *
+	 * @throws MissingResourceException If the image writer is not set.
+	 */
 	public void writeToImage()
 	{
 		if (imageWriter == null)

@@ -71,6 +71,7 @@ public class Point {
   * @param p given point to calculate the distance from
   * @return the actual distance between two points
   */
+ 
  public double distance(Point p)
  {
 	 return (Math.sqrt(distanceSquared(p)));

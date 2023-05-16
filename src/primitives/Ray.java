@@ -1,9 +1,13 @@
 package primitives;
 import static primitives.Util.*;
-
 import java.util.List;
+/**
+ * The Ray class represents a ray in 3D space.
+ * It consists of a starting point (p0) and a direction vector (dir).
+ */
 public class Ray {
-
+	private Point p0;
+	private Vector dir;
 	@Override
 	public String toString() {
 		return "Ray [p0=" + p0 + ", dir=" + dir + "]";
@@ -19,8 +23,13 @@ public class Ray {
 	}
 
 	
-	private Point p0;
-	private Vector dir;
+	/**
+     * Constructs a Ray object with the given direction vector and starting point.
+     *
+     * @param v The direction vector of the ray.
+     * @param p The starting point of the ray.
+     * @throws IllegalArgumentException if the starting point is the zero vector.
+     */
 	public Ray(Vector v,Point p)
 	{
 		if(p.equals(Double3.ZERO))
@@ -29,26 +38,40 @@ public class Ray {
 		//normalizing the vector
 		dir=new Vector(v.xyz).normalize();	
 	}
-	
+	/**
+     * Returns the starting point of the ray.
+     *
+     * @return The starting point of the ray.
+     */
 	public Point getP0() {
 		return p0;
 	}
-
+	/**
+     * Returns the direction vector of the ray.
+     *
+     * @return The direction vector of the ray.
+     */
 	public Vector getDir() {
 		return dir;
 	}
-	/** 
-	 * return the point that on the ray
-	 * @param t is the scalar
-	 * @return the result-point
-	 */
+	/**
+     * Returns the point on the ray at the given scalar value.
+     *
+     * @param t The scalar value.
+     * @return The point on the ray at the given scalar value.
+     */
 	public Point getPoint(double t) 
 	{
 		if(isZero(t))//if t is almost zero-return the initial point of ray
 			return p0;
 		return p0.add(dir.scale(t));
 	}
-	
+	/**
+     * Finds the closest point from a list of points to the starting point of the ray.
+     *
+     * @param lst The list of points to check.
+     * @return The closest point from the list to the starting point of the ray.
+     */
 	public Point findClosestPoint(List<Point>lst)
 	{
 		if(lst.size()==0)//empty list
