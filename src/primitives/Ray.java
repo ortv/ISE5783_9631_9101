@@ -1,10 +1,13 @@
 package primitives;
 import static primitives.Util.*;
+
 import java.util.List;
 /**
  * The Ray class represents a ray in 3D space.
  * It consists of a starting point (p0) and a direction vector (dir).
  */
+
+import geometries.Intersectable.GeoPoint;
 public class Ray {
 	private Point p0;
 	private Vector dir;
@@ -74,22 +77,26 @@ public class Ray {
      */
 	public Point findClosestPoint(List<Point>lst)
 	{
+			 return lst == null || lst.isEmpty() ? null
+			 : finfClosestGeoPoint(lst.stream().map(p -> new GeoPoint(null, p)).toList()).point;			
+	}
+	public GeoPoint finfClosestGeoPoint(List<GeoPoint>lst)
+	{
 		if(lst.size()==0)//empty list
 			return null;
-		double minDis=p0.distance(lst.get(0));//
-		Point minPoint=lst.get(0);
-		for (Point point : lst)//runs on all the points in lst
+		double minDis=p0.distance(lst.get(0).point);//
+		GeoPoint minPoint=lst.get(0);
+		for (GeoPoint g_point : lst)//runs on all the points in lst
 			//and check who has the smallest distance between itself the p0-head of ray
 		{
-			if(p0.distance(point)<minDis)//if we found a smaller distance
+			if(p0.distance(g_point.point)<minDis)//if we found a smaller distance
 			{
 				//change to the closer point
-				minDis=p0.distance(point);
-				minPoint=point;
+				minDis=p0.distance(g_point.point);
+				minPoint=g_point;
 			}
 		}
 		return minPoint;//return the closest point
 	}
-	
 	
 }

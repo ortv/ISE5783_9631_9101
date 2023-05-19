@@ -1,4 +1,5 @@
 package renderer;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -30,13 +31,13 @@ public class RayTraceBasic extends RayTracerBase{
 	 */
 	public Color traceRay(Ray ray)
 	{
-		List<Point> intersections=scene.geometries.findIntsersections(ray);
+		List<GeoPoint> intersections=scene.geometries.findGeoIntsersections(ray);
 		if(intersections==null)//no intersection point
 		{
 			return scene.background;//return the ambient light
 		}
 		//else-there are intersections-return the color of the closest point from all the intersection points
-		Point closestPoint=ray.findClosestPoint(intersections);
+		GeoPoint closestPoint=ray.finfClosestGeoPoint(intersections);
 		return calColor(closestPoint);
 	}
 	/**
@@ -45,8 +46,9 @@ public class RayTraceBasic extends RayTracerBase{
 	 * @param point The point for which to calculate the color.
 	 * @return The color at the given point, which is the intensity of the scene's ambient light.
 	 */
-	public Color calColor(Point point)//gets a point and return the color there
+	public Color calColor(GeoPoint point)//gets a point and return the color there
 	{
-			return scene.ambientLight.getIntensity();
+			return scene.ambientLight.getIntensity().add(point.geometry.getEmission());
+
 	}
 }

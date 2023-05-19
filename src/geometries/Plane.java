@@ -7,7 +7,7 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
-public class Plane implements Geometry{
+public class Plane extends Geometry{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -77,6 +77,26 @@ public class Plane implements Geometry{
 			return null;
 		}
 	   
+	}
+
+	@Override
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		double denominator = normal.dotProduct(ray.getDir());//n*v
+		if(Util.isZero(denominator))
+			return null;
+		try 
+		{
+			double numerator = normal.dotProduct(p0.subtract(ray.getP0()));//n*(Q-p0)//mone
+		    double t = Util.alignZero(numerator / denominator);
+		    if(t<=0)
+		    	return null;
+		    //else
+		    return List.of(new GeoPoint(this, ray.getPoint(t)));//return the intersection with its shape
+			
+		} catch (Exception e) 
+		{
+			return null;
+		}
 	}
 	
 	

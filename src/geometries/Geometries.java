@@ -1,18 +1,21 @@
 package geometries;
+import scene.*;
 
 import primitives.Point;
 import primitives.Ray;
+import scene.Scene;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * Geometries class represents a list of shapes of all kinds
  *
  * @author AAA
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     private final List<Intersectable> geometries = new LinkedList<>();
 
@@ -48,22 +51,25 @@ public class Geometries implements Intersectable {
 	            }
 	        }
 	        return result;
-		/*
-		List<Point> result = new LinkedList<>();;
-        for (Intersectable item : geoShapes) {
-            List<Point> shapeIntersList = item.findIntsersections(ray);
-            if (shapeIntersList != null) {
-                if (result == null)
-                    result = new LinkedList<>();
-                else
-                    result.addAll(shapeIntersList);
-            }
-        }
-        return null;*/
     }
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
+	}
+
+	@Override
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		// TODO Auto-generated method stub
+		 List<GeoPoint> result = null;
+		 for (Intersectable geometry :geometries) {
+			List<GeoPoint> geoIntersections=geometry.findGeoIntersectionsHelper(ray);
+			if (geoIntersections != null){//there are interactions 
+                if (result == null)//if a new list
+                    result = new LinkedList<>();
+                result.addAll(geoIntersections);
+			}
+		}
+		 return result;
 	}
 }

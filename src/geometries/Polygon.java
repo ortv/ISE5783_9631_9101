@@ -4,6 +4,7 @@ import static primitives.Util.isZero;
 
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -11,7 +12,7 @@ import primitives.Vector;
 /** Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
  * @author Dan ! */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
@@ -119,11 +120,48 @@ public class Polygon implements Geometry {
    }
 
 @Override
-public String toString() {
+	public String toString() {
 	// TODO Auto-generated method stub
 	return super.toString();
-}
-	     
-	   
 	}
+	     
+	public List<GeoPoint>findGeoIntersectionsHelper(Ray ray)
+	{
+		 var intersections=plane.findGeoIntsersections(ray);//check if there are intersection in its plane
+		 if(intersections==null)//no intersections
+			   return null;
+		   //else
+		   Vector v1=vertices.get(0).subtract(ray.getP0());
+		   Vector v2=vertices.get(1).subtract(ray.getP0());
+		   Vector normVector=v1.crossProduct(v2).normalize();
+		   double sign=normVector.dotProduct(ray.getDir());
+		   if(isZero(sign))
+			   return null;//no intersections
+		   boolean flagSign=sign>0;
+		   if(flagSign!=(sign>0))
+			   return null;
+		   for (int i =2;i< vertices.size() ;i++) {
+	           v1 = v2;
+	           v2 = vertices.get(i).subtract(ray.getP0());
+	           normVector=v1.crossProduct(v2).normalize();
+	           sign = normVector.dotProduct(ray.getDir());
+	           if (isZero(sign))
+	               return null;
+	           if (flagSign != (sign > 0))
+	               return null;
+	           flagSign=sign>0;
+	       }
+		   v1=v2;
+		   v2=vertices.get(0).subtract(ray.getP0());
+		   normVector=v1.crossProduct(v2).normalize();
+	       sign = normVector.dotProduct(ray.getDir());
+	       if (isZero(sign))
+	           return null;
+	       if (flagSign != (sign > 0))
+	           return null;
+	       flagSign=sign>0;
+	       intersections.get(0).geometry=this;//change to this shape-polygon
+	       return intersections;//return intersections with the shape related to them
+	}
+}
 

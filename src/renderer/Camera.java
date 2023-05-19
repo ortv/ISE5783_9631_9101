@@ -3,6 +3,7 @@ package renderer;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 import static primitives.Util.isZero;
 
@@ -74,10 +75,9 @@ public class Camera {
     /**
      * Renders the image using the camera configuration.
      *
-     * @return The camera instance for method chaining.
      * @throws MissingResourceException If any required resources are missing.
      */
-	public Camera renderImage()
+	public void renderImage()
 	{
 		if (imageWriter == null)
             throw new MissingResourceException(RESOURCE, CAMERA_CLASS, IMAGE_WRITER);
@@ -94,8 +94,6 @@ public class Camera {
                 this.imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
         	}
         }
-        
-        return this;//for builder
 
 	}
 	/**
@@ -201,9 +199,9 @@ public class Camera {
 		double yI=-(i-(nY-1d)/2)*rY;
 		double xJ=(j-(nX-1d)/2)*rX;
 		Point pIJ=pCenterPoint;
-		if(xJ!=0)
+		if(!Util.isZero(xJ))
 			pIJ=pIJ.add(vRight.scale(xJ));
-		if(yI!=0)
+		if(!Util.isZero(yI))
 			pIJ=pIJ.add(vUp.scale(yI));
 		//Didn't throw an exception
 		Vector vIJ=pIJ.subtract(p0);//a vector for the ray
