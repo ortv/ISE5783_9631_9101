@@ -1,11 +1,15 @@
 package renderer;
 import geometries.Intersectable.GeoPoint;
+import lighting.LightSource;
 
 import java.util.List;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
+import primitives.Vector;
 import scene.Scene;
 	/**
  	* The RayTraceBasic class is a basic implementation of a ray tracer that calculates the color of a given ray by finding the closest intersection point with the scene's geometries.
@@ -50,5 +54,30 @@ public class RayTraceBasic extends RayTracerBase{
 	{
 			return scene.ambientLight.getIntensity().add(point.geometry.getEmission());
 
+	}
+	
+	
+	private Color calcLocalEffects(GeoPoint gp,Ray ray)
+	{
+		Color color=gp.geometry.getEmission();
+		Vector v=ray.getDir();
+		Vector n=gp.geometry.getNormal(gp.point);
+		double nv=Util.alignZero(n.dotProduct(v));
+		if(Util.isZero(nv))//no effects
+			return color;//only emission
+		//else
+		Material material=gp.geometry.getMaterial();
+		for (LightSource light : scene.lights)//runs on all  light sources
+		{
+			Vector l=light.getL(gp.point);//get the vector from the light to the given point
+			double nl=Util.alignZero(n.dotProduct(l));
+			if(nl*nv>0)//same sign
+			{
+				Color iL=light.getIntensity(gp.point);
+				//color=color.add(iL.scale(calcDiffusive(mat,nl)),iL.scale(calcSpecular(mat,n,l,nl,v)));
+			}
+		}
+		return color;		
+		
 	}
 }

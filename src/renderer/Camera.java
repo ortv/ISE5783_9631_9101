@@ -77,7 +77,7 @@ public class Camera {
      *
      * @throws MissingResourceException If any required resources are missing.
      */
-	public void renderImage()
+	public Camera renderImage()
 	{
 		if (imageWriter == null)
             throw new MissingResourceException(RESOURCE, CAMERA_CLASS, IMAGE_WRITER);
@@ -94,7 +94,7 @@ public class Camera {
                 this.imageWriter.writePixel(j, i, castRay(nX, nY, j, i));
         	}
         }
-
+        return this;
 	}
 	/**
      * Prints a grid pattern on the image.

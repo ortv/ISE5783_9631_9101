@@ -1,7 +1,11 @@
 package scene;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import geometries.Geometries;
 import lighting.AmbientLight;
+import lighting.LightSource;
 import primitives.Color;
 /**
  * The Scene class represents a scene in a ray tracing application.
@@ -30,6 +34,14 @@ public class Scene {
      * The geometries in the scene.
      */
 	public Geometries geometries=new Geometries();
+	
+	public List<LightSource> lights=new LinkedList<>();
+	
+	
+	public Scene setLightSources(List<LightSource> lightSources) {
+		this.lights = lightSources;
+		return this;
+	}
 	/**
      * Constructs a Scene object with the given name.
      *

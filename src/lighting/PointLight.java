@@ -6,7 +6,7 @@ import primitives.Vector;
 
 public class PointLight extends Light implements LightSource{
 	
-	protected PointLight(Color in,Point post) {
+	public PointLight(Color in,Point post) {
 		super(in);
 		// TODO Auto-generated constructor stub
 		position=post;

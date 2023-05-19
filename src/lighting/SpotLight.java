@@ -18,7 +18,7 @@ public class SpotLight extends PointLight  {
 		return super.getL(p);
 	}
 
-	protected SpotLight(Color in, Point post,Vector dirctVector) {
+	public SpotLight(Color in, Point post,Vector dirctVector) {
 		super(in, post);
 		// TODO Auto-generated constructor stub
 		direction=dirctVector.normalize();
