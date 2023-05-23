@@ -1,14 +1,12 @@
 package renderer;
 import geometries.Intersectable.GeoPoint;
 import lighting.LightSource;
-
+import primitives.Double3;
 import java.util.List;
-
+import primitives.Util;
 import primitives.Color;
 import primitives.Material;
-import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 import scene.Scene;
 	/**
@@ -42,7 +40,7 @@ public class RayTraceBasic extends RayTracerBase{
 		}
 		//else-there are intersections-return the color of the closest point from all the intersection points
 		GeoPoint closestPoint=ray.finfClosestGeoPoint(intersections);
-		return calColor(closestPoint);
+		return calColor(closestPoint,ray);
 	}
 	/**
 	 * Calculates the color at a given point in the scene.
@@ -50,11 +48,14 @@ public class RayTraceBasic extends RayTracerBase{
 	 * @param point The point for which to calculate the color.
 	 * @return The color at the given point, which is the intensity of the scene's ambient light.
 	 */
-	public Color calColor(GeoPoint point)//gets a point and return the color there
+	public Color calColor(GeoPoint point,Ray ray)//gets a point and return the color there
 	{
-			return scene.ambientLight.getIntensity().add(point.geometry.getEmission());
+			return scene.ambientLight.getIntensity().add(calcLocalEffects(point, ray));
 
 	}
+	
+	
+	
 	
 	
 	private Color calcLocalEffects(GeoPoint gp,Ray ray)
@@ -74,10 +75,25 @@ public class RayTraceBasic extends RayTracerBase{
 			if(nl*nv>0)//same sign
 			{
 				Color iL=light.getIntensity(gp.point);
-				//color=color.add(iL.scale(calcDiffusive(mat,nl)),iL.scale(calcSpecular(mat,n,l,nl,v)));
+				color=color.add(iL.scale((calcDiffse(material,nl))),iL.scale(calcSpecular(material,n,l,nl,v)));//adding diffuse and specular
 			}
 		}
-		return color;		
-		
+		return color;			
 	}
+	
+	
+	
+	
+	private Double3 calcDiffse(Material mat,double ln)
+	{//return the diffuse
+		return mat.kD.scale(Math.abs(ln));//kd*|l*n|*iL
+	}
+	
+	private Double3 calcSpecular(Material mat,Vector n,Vector l,double nl,Vector v)
+	{
+		Vector r=l.add(n.scale(-2*nl));//l-2*(ln)*n
+		double vr=Util.alignZero(v.dotProduct(r));
+		return (mat.kS.scale(Math.pow(Math.max(0,vr ),mat.Shininess)));
+	}
+	 
 }

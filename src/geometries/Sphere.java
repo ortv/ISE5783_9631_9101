@@ -39,7 +39,7 @@ public class Sphere extends RadialGeometry{
 	 * return a list of intersection points between ray and sphere
 	 * @param ray is the given ray to intersect with
 	 * @return list of intersection points-if there are not, return null */
-	public List<Point> findIntsersections(Ray ray)
+	/*public List<Point> findIntsersections(Ray ray)
 	{
 		//if the center equals to the initial point-cant build a vector(zero vector) but still, there is intersection!!!
 		if(center.equals(ray.getP0()))
@@ -121,7 +121,7 @@ public class Sphere extends RadialGeometry{
 		}	
 		//else-no positive
 		return null;
-	}
+	}*/
 
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

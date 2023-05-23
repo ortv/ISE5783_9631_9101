@@ -57,7 +57,7 @@ public class Plane extends Geometry{
 	* @param ray is the given ray to intersect with
 	 * @return list of intersection points-if there are not, return null
 	 * */
-	public List<Point> findIntsersections(Ray ray)
+	/*public List<Point> findIntsersections(Ray ray)
 	{
 		
 		double denominator = normal.dotProduct(ray.getDir());//n*v
@@ -77,7 +77,7 @@ public class Plane extends Geometry{
 			return null;
 		}
 	   
-	}
+	}*/
 
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {

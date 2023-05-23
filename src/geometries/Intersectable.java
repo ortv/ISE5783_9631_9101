@@ -25,9 +25,10 @@ public abstract class Intersectable {
 		public Point point;
 		public GeoPoint(Geometry geo,Point p)
 		{
-			geometry=geo;
-			point=p;
+			this.geometry=geo;
+			this.point=p;
 		}
+		
 		
 		@Override
 		public boolean equals(Object obj) {
