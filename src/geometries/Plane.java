@@ -52,33 +52,7 @@ public class Plane extends Geometry{
 		// TODO Auto-generated method stub
 		return normal;
 	}
-	/*
-	 * find all the intersection points between a ray and a plane
-	* @param ray is the given ray to intersect with
-	 * @return list of intersection points-if there are not, return null
-	 * */
-	/*public List<Point> findIntsersections(Ray ray)
-	{
-		
-		double denominator = normal.dotProduct(ray.getDir());//n*v
-		if(Util.isZero(denominator))
-			return null;
-		try 
-		{
-			double numerator = normal.dotProduct(p0.subtract(ray.getP0()));//n*(Q-p0)//mone
-		    double t = Util.alignZero(numerator / denominator);
-		    if(t<=0)
-		    	return null;
-		    //else
-		    return List.of(ray.getPoint(t));
-			
-		} catch (Exception e) 
-		{
-			return null;
-		}
-	   
-	}*/
-
+	
 	@Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		double denominator = normal.dotProduct(ray.getDir());//n*v
@@ -98,7 +72,5 @@ public class Plane extends Geometry{
 			return null;
 		}
 	}
-	
-	
-	
+
 }

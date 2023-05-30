@@ -15,7 +15,7 @@ import scene.Scene;
 
 class LightsTests {
 
-	 private final Scene          scene1                  = new Scene("Test scene");
+	private final Scene          scene1                  = new Scene("Test scene");
 	   private final Scene          scene2                  = new Scene("Test scene")
 	      .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
 
@@ -26,20 +26,23 @@ class LightsTests {
 	                                                                     new Vector(0, 0, -1), new Vector(0, 1, 0))
 	      .setVPSize(200, 200).setVUPDistance(1000);
 
-	   private static final int  SHININESS  = 301;
-	   private static final double  KD = 0.5;
-	   private static final Double3 KD3 = new Double3(0.2, 0.6, 0.4);
-	   private static final double  KS   = 0.5;
-	   private static final Double3 KS3 = new Double3(0.2, 0.4, 0.3);
-	   private final Material  material = new Material().setkD(KD3).setkS(KS3).setShininess(SHININESS);
-	   private final Color trianglesLightColor  = new Color(800, 500, 250);
-	   private final Color sphereLightColor  = new Color(800, 500, 0);
-	   private final Color sphereColor = new Color(BLUE).reduce(2);
-	   private final Point sphereCenter = new Point(0, 0, -50);
-	   private static final double  SPHERE_RADIUS = 50d;
+	   private static final int     SHININESS               = 301;
+	   private static final double  KD                      = 0.5;
+	   private static final Double3 KD3                     = new Double3(0.2, 0.6, 0.4);
+
+	   private static final double  KS                      = 0.5;
+	   private static final Double3 KS3                     = new Double3(0.2, 0.4, 0.3);
+
+	   private final Material       material                = new Material().setkD(KD3).setkS(KS3).setShininess(SHININESS);
+	   private final Color          trianglesLightColor     = new Color(800, 500, 250);
+	   private final Color          sphereLightColor        = new Color(800, 500, 0);
+	   private final Color          sphereColor             = new Color(BLUE).reduce(2);
+
+	   private final Point          sphereCenter            = new Point(0, 0, -50);
+	   private static final double  SPHERE_RADIUS           = 50d;
 
 	   // The triangles' vertices:
-	   private final Point[]  vertices  =
+	   private final Point[]        vertices                =
 	      {
 	        // the shared left-bottom:
 	        new Point(-110, -110, -150),
@@ -50,19 +53,17 @@ class LightsTests {
 	        // the left-top
 	        new Point(-75, 78, 100)
 	      };
-	   private final Point  sphereLightPosition     = new Point(-50, -50, 25);
-	   private final Point trianglesLightPosition  = new Point(30, 10, -100);
-	   private final Vector trianglesLightDirection = new Vector(-2, -2, -2);
+	   private final Point          sphereLightPosition     = new Point(-50, -50, 25);
+	   private final Point          trianglesLightPosition  = new Point(30, 10, -100);
+	   private final Vector         trianglesLightDirection = new Vector(-2, -2, -2);
 
-	   private final Geometry sphere = new Sphere( SPHERE_RADIUS,sphereCenter)
+	   private final Geometry       sphere                  = new Sphere( SPHERE_RADIUS,sphereCenter)
 	      .setEmission(sphereColor).setMaterial(new Material().setkD(KD).setkS(KS).setShininess(SHININESS));
-	   private final Geometry triangle1 = new Triangle(vertices[0], vertices[1], vertices[2])
+	   private final Geometry       triangle1               = new Triangle(vertices[0], vertices[1], vertices[2])
 	      .setMaterial(material);
-	   private final Geometry  triangle2 = new Triangle(vertices[0], vertices[1], vertices[3])
-	     .setMaterial(material);
-	   
+	   private final Geometry       triangle2               = new Triangle(vertices[0], vertices[1], vertices[3])
+	      .setMaterial(material);
 
-	   
 	   /** Produce a picture of a sphere lighted by a directional light */
 	   @Test
 	   public void sphereDirectional() {
@@ -72,8 +73,8 @@ class LightsTests {
 	      ImageWriter imageWriter = new ImageWriter("lightSphereDirectional", 500, 500);
 	      camera1.setImageWriter(imageWriter) //
 	         .setRayTracer(new RayTraceBasic(scene1)) //
-	         .renderImage(); //
-	        camera1 .writeToImage(); //
+	         .renderImage() //
+	         .writeToImage(); //
 	   }
 
 	   /** Produce a picture of a sphere lighted by a point light */
@@ -86,8 +87,8 @@ class LightsTests {
 	      ImageWriter imageWriter = new ImageWriter("lightSpherePoint", 500, 500);
 	      camera1.setImageWriter(imageWriter) //
 	         .setRayTracer(new RayTraceBasic(scene1)) //
-	         .renderImage(); //
-	        camera1 .writeToImage(); //
+	         .renderImage() //
+	         .writeToImage(); //
 	   }
 
 	   /** Produce a picture of a sphere lighted by a spotlight */
@@ -100,11 +101,10 @@ class LightsTests {
 	      ImageWriter imageWriter = new ImageWriter("lightSphereSpot", 500, 500);
 	      camera1.setImageWriter(imageWriter) //
 	         .setRayTracer(new RayTraceBasic(scene1)) //
-	         .renderImage(); //
-	        camera1 .writeToImage(); //
+	         .renderImage() //
+	         .writeToImage(); //
 	   }
 
-	   
 	   /** Produce a picture of two triangles lighted by a directional light */
 	   @Test
 	   public void trianglesDirectional() {
@@ -145,7 +145,7 @@ class LightsTests {
 	         .renderImage() //
 	         .writeToImage(); //
 	   }
-
+	   
 	   /** Produce a picture of a sphere lighted by a narrow spotlight */
 	  // @Test
 	  //public void sphereSpotSharp() {

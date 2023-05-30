@@ -12,8 +12,9 @@ public abstract class Intersectable {
 		 var geoList = findGeoIntsersections(ray);
 		 return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
 	}
+	/*find intersection in a specific distance*/
 	
-	
+
 	public  final List<GeoPoint> findGeoIntsersections(Ray ray){
 		return findGeoIntersectionsHelper(ray);
 	}

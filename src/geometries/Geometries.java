@@ -38,20 +38,7 @@ public class Geometries extends Intersectable {
             this.geometries.addAll(List.of(geometries));
     }
 
-	/*@Override
-	public List<Point> findIntsersections(Ray ray) {
-		
-		 List<Point> result = null;
-	        for (Intersectable item : geometries) {
-	            List<Point> itemResult = item.findIntsersections(ray);
-	            if (itemResult != null) {
-	                if (result == null)
-	                    result = new LinkedList<>();
-	                result.addAll(itemResult);
-	            }
-	        }
-	        return result;
-    }*/
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -72,4 +59,5 @@ public class Geometries extends Intersectable {
 		}
 		 return result;
 	}
+
 }
