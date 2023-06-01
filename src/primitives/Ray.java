@@ -16,6 +16,7 @@ public class Ray {
 		return "Ray [p0=" + p0 + ", dir=" + dir + "]";
 	}
 
+	private double DELTA=0.1;
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
@@ -25,7 +26,22 @@ public class Ray {
 		return false;
 	}
 
-	
+    /**
+     * constructor for Ray
+     * set the ray with the sliding of
+     * the initial point in the delta on the normal
+     * @param p the initial point
+     * @param v the direction of the ray - must already be normalized
+     * @param n the normal
+     */
+    public Ray(Point p, Vector v, Vector n) {
+        //point + normal.scale(±DELTA)
+        double nv = n.dotProduct(v);
+        Vector normalEpsilon = n.scale((nv > 0 ? DELTA : -DELTA));
+        p0 = p.add(normalEpsilon);
+        dir = v;
+    }
+
 	/**
      * Constructs a Ray object with the given direction vector and starting point.
      *
@@ -80,6 +96,7 @@ public class Ray {
 			 return lst == null || lst.isEmpty() ? null
 			 : finfClosestGeoPoint(lst.stream().map(p -> new GeoPoint(null, p)).toList()).point;			
 	}
+	
 	public GeoPoint finfClosestGeoPoint(List<GeoPoint>lst)
 	{
 		if(lst.size()==0)//empty list

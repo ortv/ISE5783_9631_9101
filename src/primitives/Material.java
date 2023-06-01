@@ -16,9 +16,31 @@ public class Material {
 			return Shininess == other.Shininess && Objects.equals(kD, other.kD) && Objects.equals(kS, other.kS);
 		return false;
 		
+		
 	}
 	public Double3 kD=Double3.ZERO,kS=Double3.ZERO;
 	public int Shininess=0;
+	public Double3 kT=Double3.ZERO;//for transparency
+	public Double3 kR=Double3.ZERO;//for reflection
+	
+	public Material setkT(Double3 kT) {
+		this.kT = kT;
+		return this;
+	}
+	public Material setkR(Double3 kR) {
+		this.kR = kR;
+		return this;
+	}
+	
+	public Material setkT(Double kT) {
+		this.kT = new Double3(kT);
+		return this;
+	}
+	public Material setkR(Double kR) {
+		this.kR = new Double3(kR);
+		return this;
+	}
+	
 	public Material setkD(Double3 kD) {
 		this.kD = kD;
 		return this;
