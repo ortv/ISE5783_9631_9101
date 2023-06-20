@@ -88,6 +88,25 @@ public class RayTraceBasic extends RayTracerBase{
 	}
 	
 	
+	/**
+	  * @param rays List of surrounding rays(the beam)
+	  * @return average color
+	  */
+	public Color traceRay(List<Ray> rays) 
+	{
+	 	if(rays == null)
+	 		return scene.background;
+	     Color color = scene.background;
+	     for (Ray ray : rays) //runs on all the rays in the beam
+	     {
+	     	color = color.add(traceRay(ray));//add the color of each ray
+	     }
+	     color = color.add(scene.ambientLight.getIntensity());
+	     int size = rays.size();
+	     return color.reduce(size);//return the average color of all the rays
+	
+	 }
+	
 	private Color calcColor(GeoPoint gp,Ray ray)//warp function-send to recursive calcColor
 	{
 		return calcColor(gp,ray,MAX_CALC_COLOR_LEVEL ,new Double3( INITIAL_K)).add(scene.ambientLight.getIntensity());
@@ -115,7 +134,7 @@ public class RayTraceBasic extends RayTracerBase{
 	 * @return The color contribution from global effects.
 	 */
 	private Color calcGlobalEffects(GeoPoint intersection, Ray ray, int level, Double3 mink) {
-        Color color=Color.BLACK;
+       // Color color=Color.BLACK;
         Vector v = ray.getDir();
 		Vector n = intersection.geometry.getNormal(intersection.point);
         Material material = intersection.geometry.getMaterial();
