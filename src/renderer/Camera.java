@@ -1,5 +1,6 @@
 package renderer;
 
+
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
@@ -7,9 +8,8 @@ import primitives.Util;
 import primitives.Vector;
 import static primitives.Util.isZero;
 
-import java.awt.image.renderable.ContextualRenderedImageFactory;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -54,23 +54,315 @@ public class Camera {
      * turn on - off antialising super sampling
      */
     private boolean isAntialising= false;//indicates of to improve the picture with antialising or not. the default is not. 
-
+    
    
     /**
      * the number of rays
      */
     private int numOfRaysSuperSampeling = 100;//for sumersampleing
 
-	
+    private boolean AdaptiveSuperSamplingFlag = false;
+	private int numOfRays=1;
+    public Camera setNumOfRays(int numOfRays){
+		if(numOfRays == 0)
+			this.numOfRays=1;
+		else
+		 this.numOfRays = numOfRays;
+		return this;
+	}
+
+	private int _threads = 1;
+	public Camera setNumOfRaysSuperSampeling(int numOfRaysSuperSampeling) {
+		this.numOfRaysSuperSampeling = numOfRaysSuperSampeling;
+		return this;
+	}
+
+	public Camera setAdaptiveSuperSamplingFlag(boolean adaptiveSuperSamplingFlag) {
+		AdaptiveSuperSamplingFlag = adaptiveSuperSamplingFlag;
+		return this;
+	}
+
+	public Camera setThreads(int threads) {
+		this.threads = threads;
+		return this;
+	}
+
+	public Camera setPrint(boolean print) {
+		this.print = print;
+		return this;
+	}
+	private int threads = 1;
+	private static final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
+	private boolean print = false; // printing progress percentage
+
 	public Camera setnumOfRaysSuperSampeling(int numOfRays) {
 		this.numOfRaysSuperSampeling = numOfRays;
 		return this;
+		
 	}
 	
 	public Camera setAntialising(boolean isAntialising) {
 		this.isAntialising = isAntialising;
 		return this;
 	}
+	
+	private class Pixel
+	{
+		private long maxMunRows=0;// maximum row values of image
+		private long maxMunCols=0;//maximum col values of image
+		private long pixels=0;//total number of pixels in the image
+		public volatile int row = 0;//epresent the current row and 
+	    public volatile int col = -1;//column of the pixel being processed.
+	    private long counter = 0;//number of pixels processed so far.
+	    private int percent = 0;// percentage progress of pixel processing.
+	    private long nextCounter = 0;// counter value at which the next percentage progress update should occur.
+
+		public Pixel(int row,int col)
+		{
+			maxMunRows=row;
+			maxMunCols=col;
+			pixels=maxMunCols*maxMunRows;
+			nextCounter=pixels/100;
+			 if(print)//if the flag for printing the percentage is on
+	             System.out.printf("\r %02d%%", percent);
+				
+		}
+		public Pixel() {}
+		
+		
+		public boolean nextPixel(Pixel p)
+		{//check if there is a next pixel
+			int percent=nextp(p);
+			if(percent>0&&print)
+			{
+                synchronized(System.out){System.out.printf("\r %02d%%", percent);}
+			}
+			if(percent>=0)
+				return true;//there is a next pixel
+			if(print)
+			{
+				synchronized(System.out){System.out.printf("\r %02d%%", 100);}
+			}
+			return false;//no next pixel
+			}
+		
+		
+		
+		/**
+         * Pixel - nextP
+         * changing target pixel to the next pixel
+         * return 0 if there is a next pixel, and -1 else
+         */
+        private synchronized int nextp(Pixel target) {
+            col++;
+            counter++;
+            if(col < maxMunCols) {
+                target.row = this.row;
+                target.col = this.col;
+                if(counter == nextCounter)
+                {
+                    percent++;
+                    nextCounter = pixels * (percent + 1) / 100;
+                    return percent;
+                }
+                return 0;
+            }
+
+            row++;
+            if(row < maxMunRows) {
+                col = 0;
+                if(counter == nextCounter)
+                {
+                    percent++;
+                    nextCounter = pixels * (percent + 1) / 100;
+                    return percent;
+                }
+                return 0;//could create a next pixel
+            }
+            return -1;
+        }
+        
+	}
+    ////////////////////////////////////////////////////////////////////////////////////////end of inner class
+
+        /**
+         * Render - Image
+         * Converts the image from D3 to D2
+         * The result is written in imageWriter
+         */
+        public Camera renderImage()
+        {
+        	try {
+        	if (AdaptiveSuperSamplingFlag) {//indicates whether to apply adaptive super sampling.
+            int nX = imageWriter.getNx();
+            int nY = imageWriter.getNy();
+
+            //Multi threads for calculating pixel color
+            final Pixel thePixel = new Pixel(nY,nX);//creating an instance of pixel with the maximum row and column values.
+            Thread[] threads = new Thread[_threads];//arrey of threads to perform parallel processing of pixels
+            for(int i = 0 ; i<_threads; i++)
+            {//creates a new thread for each 
+                //index and assigns a task to each thread
+            	//while there is a pixel  that is not processed yet,
+            	//calculating the color,and writing it in the pixel
+            	threads[i] = new Thread(()->{
+                    Pixel pixel = new Pixel();
+                    try {
+                        //while there is a pixel that is not processed by a thread
+                        while (thePixel.nextPixel(pixel)) {
+                                    primitives.Color color = AdaptiveSuperSampling(nX, nY, pixel.col, pixel.row,numOfRaysSuperSampeling);
+                                    imageWriter.writePixel(pixel.col, pixel.row, new Color(color.getColor()));
+                        }
+                    }
+                    catch (Exception e){}
+                });//end of creating thread
+            }
+            //starts all threads
+            for (Thread thread : threads)
+                thread.start();
+
+            //Wait for all threads to finish
+            for (Thread thread : threads)
+                thread.join();
+
+            //finish to create the image
+            if(print)
+                System.out.print("\r100%\n");
+        	}
+        	
+            else
+            { this.renderImageBeam();}}
+        	
+            catch (Exception e){}
+        	return this;
+        	
+        	
+        }
+            
+        
+        /**
+         * Adaptive Super Sampling
+         *@param nX number of pixels in x axis
+         *@param nY number of pixels in y axis
+         *@param j number of pixels in x axis
+         *@param i number of pixels in x axis
+         *@param numOfRays max num of ray for pixel
+         *@return color for pixel
+         */
+        private primitives.Color AdaptiveSuperSampling(int nX, int nY, int j, int i, int numOfRays) throws Exception {
+            int numOfRaysInRowCol = (int)Math.floor(Math.sqrt(numOfRays));
+            if(numOfRaysInRowCol == 1)
+                return rayTracer.traceRay(constructRay(nX, nY, j, i));
+            Point Pc;
+            if (distance != 0)
+                Pc = p0.add(vTo.scale(distance));
+            else
+                Pc = p0;
+            Point Pij = Pc;
+            double Ry = height/nY;
+            double Rx = width/nX;
+            double Yi= (i - (nY/2d))*Ry + Ry/2d;
+            double Xj= (j - (nX/2d))*Rx + Rx/2d;
+            if(Xj != 0) Pij = Pij.add(vRight.scale(-Xj)) ;
+            if(Yi != 0) Pij = Pij.add(vUp.scale(-Yi)) ;
+            double PRy = Ry/numOfRaysInRowCol;
+            double PRx = Rx/numOfRaysInRowCol;
+            return AdaptiveSuperSamplingRec(Pij, Rx, Ry, PRx, PRy,null);
+        }
+
+        /**
+         * Adaptive Super Sampling recursive
+         *@param centerP the screen location
+         *@param Width the screen width
+         *@param Height the screen height
+         *@param minWidth the min cube width
+         *@param minHeight the min cube height
+         *@param prePoints list of pre points to
+         *@return color for pixel
+         */
+        private primitives.Color AdaptiveSuperSamplingRec(Point centerP, double Width, double Height, double minWidth, double minHeight, List<Point> prePoints) throws Exception {
+//The method recursively subdivides the current pixel into smaller sub-pixels and calculates the color for each sub-pixel.
+            if (Width < minWidth * 2 || Height < minHeight * 2) {//calculates the color
+                return rayTracer.traceRay(new Ray(centerP.subtract(p0),p0));
+            }
+            //otherwise
+            List<Point> nextCenterPList = new LinkedList<>();
+            List<Point> cornersList = new LinkedList<>();
+            List<primitives.Color> colorList = new LinkedList<>();
+            Point tempCorner;
+            Ray tempRay;
+            //subdivides the current pixel into four sub-pixels and recursively calls itself for each sub-pixel.
+            for (int i = -1; i <= 1; i += 2){
+                for (int j = -1; j <= 1; j += 2) {
+                	tempCorner = centerP.add(vRight.scale(i * Width / 2)).add(vUp.scale(j * Height / 2));
+                    cornersList.add(tempCorner);//add the corner point to list
+                    if (prePoints == null || !isInList(prePoints, tempCorner)) {
+                        tempRay = new Ray(tempCorner.subtract(p0),p0);//creates a ray, calc the color and add to list of colors
+                        nextCenterPList.add(centerP.add(vRight.scale(i * Width / 4)).add(vUp.scale(j * Height / 4)));
+                        colorList.add(rayTracer.traceRay(tempRay));//all the calculated colors  are saved in the list
+                        }
+                    }
+                }
+            //if there are no points(calculated colors)
+            if (nextCenterPList == null || nextCenterPList.size() == 0) {
+                return primitives.Color.BLACK;
+            }
+
+
+            boolean isAllEquals = true;
+            primitives.Color tempColor = colorList.get(0);
+            for (primitives.Color color : colorList) {//check if the colors in the list are not equal
+                if (!tempColor.isAlmostEquals(color))
+                    isAllEquals = false;
+            }
+            if (isAllEquals && colorList.size() > 1)//if the colors are equal
+                return tempColor;//return the color of all
+            //else, not all colors are equal
+
+            tempColor = primitives.Color.BLACK;
+            for (Point center : nextCenterPList) {
+                tempColor = tempColor.add(AdaptiveSuperSamplingRec(center, Width/2,  Height/2,  minWidth,  minHeight ,  cornersList));//calls again for each sub pixel
+            }
+            return tempColor.reduce(nextCenterPList.size());//return the  color of all colors
+
+
+        }
+        
+        /**
+         * is In List - Checks whether a point is in a points list
+         * @param point the point we want to check
+         * @param pointsList where we search the point
+         * @return true if the point is in the list, false otherwise
+         */
+        private boolean isInList(List<Point> pointsList, Point point) {
+            for (Point tempPoint : pointsList) {
+                if(point.isAlmostEquals(tempPoint))
+                    return true;
+            }
+            return false;
+        }
+        
+
+	 /**
+     * Set multi-threading <br>
+     * - if the parameter is 0 - number of cores less 2 is taken
+     *
+     * @param threads number of threads
+     * @return the Render object itself
+     */
+     public Camera setMultithreading(int threads) {
+     if (threads < 0)
+ 	    throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
+     if (threads != 0)
+ 	    _threads = threads;
+     else {
+ 	    int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+ 	    _threads = cores <= 2 ? 1 : cores;
+     }
+     return this;
+     }
+			
+	
 	/**
 	Constructs a new camera with the given parameters.
 	@param p The center point of the camera.
@@ -101,7 +393,7 @@ public class Camera {
      *
      * @throws MissingResourceException If any required resources are missing.
      */
-	public Camera renderImage()
+	/*public Camera renderImage()
 	{
 		if(isAntialising)//if the flag to improvement is on
 			renderImageBeam();
@@ -121,7 +413,7 @@ public class Camera {
         	}
         }
         return this;
-	}
+	}*/
 	/**
      * Prints a grid pattern on the image.
      *adds grid lines to the rendered image by setting specific pixels to a specified color
@@ -209,7 +501,7 @@ public class Camera {
 	
 
 	
-	private void renderImageBeam()
+	public void renderImageBeam()
 	{//track rays, if its a beam and more
 		
 		if (imageWriter == null)
@@ -217,8 +509,8 @@ public class Camera {
 		if (rayTracer == null)
             throw new MissingResourceException(RESOURCE, CAMERA_CLASS, RAY_TRACER);
 		
-		if(numOfRaysSuperSampeling==0||numOfRaysSuperSampeling==1)//no supersampeling
-			renderImage();//calls for creating the picture
+		//if(numOfRaysSuperSampeling==0||numOfRaysSuperSampeling==1)//no supersampeling
+			//renderImage();//calls for creating the picture
 			
 		//else,supersampleing
 		//runs on all the image
@@ -226,11 +518,18 @@ public class Camera {
 		{
 			for(int j=0;j<imageWriter.getNy();j++)
 			{
+				if(numOfRays == 1 || numOfRays == 0)
+				{
+					Ray ray = constructRay(imageWriter.getNx(), imageWriter.getNy(), j, i);
+					Color rayColor = rayTracer.traceRay(ray);
+					imageWriter.writePixel(j, i, rayColor); 
+				}
 				//creating a list of all the rays in the beam, calculating their color and eriting the image
-				
+				else {
 				List<Ray> rays = constructBeamThroughPixel(imageWriter.getNx(), imageWriter.getNy(), j, i,numOfRaysSuperSampeling);
 				Color rayColor = rayTracer.traceRay(rays);//new func,gets a list of rays
 				imageWriter.writePixel(j, i, rayColor); 
+				}
 			}
 		}
 	}
@@ -240,11 +539,12 @@ public class Camera {
 	
 	
 	
-	public List<Ray> constructBeamThroughPixel(int nX, int nY, int j, int i, int raysAmountSuper)
+	
+	public List<Ray> constructBeamThroughPixel(int nX, int nY, int j, int i, int raysAmount)
 	{
 		if(isZero(distance))
 			throw new IllegalArgumentException(DISTANCE);
-		int numOfRays = (int)Math.floor(Math.sqrt(raysAmountSuper)); //num of rays in each row or column
+		int numOfRays = (int)Math.floor(Math.sqrt(raysAmount)); //num of rays in each row or column
 		
 		if (numOfRays==1) //if the beam is only one ray
 			return List.of(constructRay(nX, nY, j, i));//return a list of only one ray
@@ -320,8 +620,6 @@ public class Camera {
 
 		
 	}
-
-
 	@Override
 	public String toString() {
 		return "Camera [p0=" + p0 + ", vUp=" + vUp + ", vTo=" + vTo + ", vRight=" + vRight + ", width=" + width
@@ -329,5 +627,16 @@ public class Camera {
 	}
 
 
+	/*Adaptive supersampling increases the efficiency of supersampling by applying it only
+where necessary. Instead of taking a sample of the center of the pixel, the algorithm
+uses the corners of the pixel to aim the rays. If the colors of the casted rays are similar
+to each other the color of the pixel is computed by taking the average. However, if
+the colors differ more than a specified amount the pixel is subdivided into 4 equal sized
+subareas. The color of each subarea is computed the same way as the color of a pixel.
+So each subarea might be divided into smaller and smaller subareas until the colors of
+the corners of the smallest subarea are similar enough or a specified maximum recursion
+depth is reached*/
 	
 }
+
+

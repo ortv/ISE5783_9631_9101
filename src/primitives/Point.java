@@ -94,4 +94,17 @@ public boolean equals(Object obj) {
 }
 final Double3 xyz;
  
+
+
+/**
+ * Checks whether the different between the points is [almost] zero
+ * @param point
+ * @return true if the different between the points is zero or almost zero, false otherwise
+ */
+public boolean isAlmostEquals(Point point) {
+
+    return  (Util.isZero(xyz.d1-point.getX())) &&
+            (Util.isZero(xyz.d2-point.getY())) &&
+            (Util.isZero(xyz.d3-point.getZ()));
+}
 }

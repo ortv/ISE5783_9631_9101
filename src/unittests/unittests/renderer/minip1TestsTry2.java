@@ -110,11 +110,13 @@ class minip1TestsTry2 {
 	        scene1.lights.add(new PointLight(spCL, spPL2).setkL(0.001).setkq(0.0002));
 
 	        ImageWriter imageWriter = new ImageWriter("improved picture 2", 1000, 1000);
-	        camera1.setImageWriter(imageWriter)
+	       
+	        
+	       camera1.setImageWriter(imageWriter)
 	                .setRayTracer(new RayTraceBasic(scene1))
-	                .setnumOfRaysSuperSampeling(10000)
-	                .setAntialising(true)
-	                .renderImage()
+	                .setnumOfRaysSuperSampeling(1024)
+	                .setAntialising(true).setAdaptiveSuperSamplingFlag(true).setMultithreading(4).
+	                renderImage()
 	                .writeToImage();
 	    }
 

@@ -32,7 +32,7 @@ class minip1Tests {
 	
 	
 	/** Produce a picture of a sphere lighted by a spot light */
-	/*   @Test
+	  @Test
 	   public void twoSpheresOnMirrors() {
 	      Camera camera = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 	         .setVPSize(2500, 2500).setVUPDistance(10000); //
@@ -66,8 +66,8 @@ class minip1Tests {
 	
 	
 	   /** Produce a picture of a sphere lighted by a spot light */
-	  // @Test
-	   /*public void twoSpheresOnMirrorsAntializsing() {
+	   @Test
+	   public void twoSpheresOnMirrorsAntializsing() {
 	      Camera camera = new Camera(new Point(0, 0, 10000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
 	         .setVPSize(2500, 2500).setVUPDistance(10000); //
 
@@ -96,10 +96,10 @@ class minip1Tests {
 	         .setRayTracer(new RayTraceBasic(scene)) //
 	         .renderImage() //
 	         .writeToImage();
-	   }*/
+	   }
 	   
 	   
-	   @Test
+	  /* @Test
 	   public void fullImprovedPicture()
 	   {
 		   Geometry front=new Polygon(new Point(2, 2, 0),
@@ -118,7 +118,7 @@ class minip1Tests {
 			         .setVPSize(2500, 2500).setVUPDistance(10000); //
 		      scene.setAmbientLight(new AmbientLight(new Color(255, 255, 255), 0.1));
 		      scene.geometries.add(/*triangles for the roof*/
-		    		  new Triangle(new Point(4,3,4),new Point(2,2,3),new Point(6,2,3)).setEmission(new Color(255,0,0))
+		    		  /*new Triangle(new Point(4,3,4),new Point(2,2,3),new Point(6,2,3)).setEmission(new Color(255,0,0))
                       .setMaterial(new Material().setkD(0.25).setkS(0.25).setShininess(20)
                               .setkT(new Double3(0.5, 0, 0))),
                       new Triangle(new Point(0,5,0), new Point(8,0,0), new Point(8,5,0)).setEmission(new Color(255,0,0))
@@ -131,7 +131,7 @@ class minip1Tests {
                       .setMaterial(new Material().setkD(0.25).setkS(0.25).setShininess(20)
                               .setkT(new Double3(0.5, 0, 0))),
                       /*for the walls*/
-                      front.setEmission(new Color(204,204,204)) .setMaterial(new Material().setkD(0.25).setkS(0.25).setShininess(20)
+                     /* front.setEmission(new Color(204,204,204)) .setMaterial(new Material().setkD(0.25).setkS(0.25).setShininess(20)
                               .setkT(new Double3(0.5, 0, 0))),
                       wall1.setEmission(new Color(204,204,204)).setMaterial(new Material().setkD(0.25).setkS(0.25).setShininess(20)
                               .setkT(new Double3(0.5, 0, 0))),
@@ -141,12 +141,12 @@ class minip1Tests {
                               .setkT(new Double3(0.5, 0, 0)))
 		    		 
 		    		  
-		    		  );
+		    		  );*/
 		    		 
                       
 		    		  
 		    
-		      scene.lights.add(new DirectionalLight(new Color(RED), new Vector(1, 1, -0.5)));
+		     /* scene.lights.add(new DirectionalLight(new Color(RED), new Vector(1, 1, -0.5)));
 			   scene.lights.add(new PointLight(new Color(WHITE), new Point(-750, -750, -150))
 			         .setkL(0.001).setkq(0.0002));
 			   scene.lights.add(new SpotLight(new Color(RED), new Point(-70, -70, -50), new Vector(1, 1.1, 1))
@@ -159,7 +159,7 @@ class minip1Tests {
                  	         .writeToImage();
                       
                       
-	   }
+	   }*/
 	   
 	   
 	   
