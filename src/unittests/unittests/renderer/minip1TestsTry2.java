@@ -114,7 +114,7 @@ class minip1TestsTry2 {
 	        
 	       camera1.setImageWriter(imageWriter)
 	                .setRayTracer(new RayTraceBasic(scene1))
-	                .setnumOfRaysSuperSampeling(1024)
+	                .setNumOfRays(1024)
 	                .setAntialising(true).setAdaptiveSuperSamplingFlag(true).setMultithreading(4).
 	                renderImage()
 	                .writeToImage();
